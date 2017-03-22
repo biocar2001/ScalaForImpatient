@@ -1,96 +1,67 @@
 package chapter1
+import scala.math._
+import BigInt.probablePrime
+import scala.util.Random
 
 /**
-  * Created by carlos on 20/03/17.
-  * Questions about chapter 2 - Control structures and functions
+  * Created by carlos on 18/03/17.
   */
 object Questions1 {
-  // 1. The signum of a number is 1 if the number is positive, -1 if it is negative, and
-  // 0 if it is zero. Write a function that computes this value.
+  // 1. In the Scala REPL, type 3. followed by the Tab key. What methods can be
+  // applied?
+  // => Do it in REPL. There are many methods including %, &, *, +, toByte, toChar etc.
 
-  def signum(n: Int) = {
-    if (n > 0) 1
-    else if (n < 0) -1
-    else 0
-  }                                               //> signum: (n: Int)Int
+  // 2. In the Scala REPL, compute the square root of 3, and then square that value.
+  // By how much does the result differ from 3? (Hint: The res variables are your
+  // friend.)
+  println(3 - pow(sqrt(3), 2))                    //> 4.440892098500626E-16
 
-  signum(4)                                       //> res0: Int = 1
-  signum(0)                                       //> res1: Int = 0
-  signum(-20)                                     //> res2: Int = -1
+  // 3. Are the res variables val or var?
+  // val
 
-  // 2. What is the value of an empty block expression {}? What is its type?
-  val blank = {}                                  //> blank  : Unit = ()
-  // Value is () and type is Unit
+  // 4. Scala lets you multiply a string with a number - try out "crazy" * 3 in the REPL.
+  // What does this operation do? Where can you find it in Scaladoc?
+  "crazy" * 3                                     //> res0: String = crazycrazycrazy
+  // Can be found in the StringOps class
 
-  // 3. Come up with one situation where the assignment x = y = 1 is valid in Scala.
-  // (Hint: Pick a suitable type for x.)
-  var y: Int = 0                            //> y  : Int = 0
-  val x: Unit = y = 1                       //> x  : Unit = ()
-  // x should be of type Unit
+  // 5. What does 10 max 2 mean? In which class is the max method defined?
+  10 max 2                                  //> res1: Int = 10
+  // Defined in the RichInt class
 
-  // 4. Write a Scala equivalent for the Java loop
-  // for (int i = 10; i >= 0; i--) System.out.println(i);
-  for(i <- 10 to (0, -1)) println(i)        //> 10
-  //| 9
-  //| 8
-  //| 7
-  //| 6
-  //| 5
-  //| 4
-  //| 3
-  //| 2
-  //| 1
-  //| 0
-  // 5. Write a procedure countdown(n: Int) that prints the numbers from n to 0.
-  def countdown(n: Int): Unit = {
-    for(i <- n to (0, -1)) println(i)
-  }                                         //> countdown: (n: Int)Unit
-  countdown(5)                              //> 5
-  //| 4
-  //| 3
-  //| 2
-  //| 1
-  //| 0
-  // 6. Write a for loop for computing the product of the Unicode codes of all letters
-  // in a string. For example, the product of the characters in "Hello" is 9415087488.
-  var prod: BigInt = 1                              //> prod: BigInt = 1
-  for(c <- "Hello") prod *= c
-  prod                                      //> res3: Int = 9415087488
+  // 6. Using BigInt, compute 2^1024.
+  BigInt(2) pow 1024                        //> res2: scala.math.BigInt = 17976931348623159077293051907890247336179769789423
+  //| 0657273430081157732675805500963132708477322407536021120113879871393357658789
+  //| 7688144166224928474306394741243777678934248654852763022196012460941194530829
+  //| 5208500576883815068234246288147391311054082723716335051068458629823994724593
+  //| 8479716304835356329624224137216
 
-  // 7. Solve the preceding exercise without writing a loop. (Hint: Look at the StringOps
-  // Scaladoc.)
-  "Hello".foldLeft(1: BigInt)((a, b) => a * b)      //> res4: BigInt = 9415087488
+  // 7. What do you need to import so that you can get a random prime as
+  // probablePrime(100, Random), without any qualifiers before probablePrime and Random?
+  // import BigInt.probablePrime
+  // import util.Random
+  probablePrime(100, Random)                //> res3: scala.math.BigInt = 912013777957722342425952556723
 
-  // 8. Write a function product(s : String) that computes the product, as described
-  // in the preceding exercises.
-  def product(s: String) = s.foldLeft(1: BigInt)((a, b) => a * b)
-  //> product: (s: String)BigInt
-  product("Hello")                                //> res5: BigInt = 9415087488
+  // 8. One way to create random file or directory names is to produce a random
+  // BigInt and convert it to base 36, yielding a string such as "qsnvbevtomcj38o06kul".
+  // Poke around Scaladoc to find a way of doing this in Scala.
+  probablePrime(100, Random).toString(36)   //> res4: String = 2w2bxtp6lz08l502sg9h
 
-  // 9. Make the function of the preceding exercise a recursive function.
-  def productRec(s: String): BigInt = {
-    if (s.length == 0) 1
-    else s.head * productRec(s.tail)
-  }                                        //> productRec: (s: String)BigInt
-  productRec("Hello")                       //> res6: BigInt = 9415087488
+  // 9. How do you get the first character of a string in Scala? The last character?
+  val s = "String"                          //> s  : String = String
+  s.head                                    //> res5: Char = S
+  s(0)                                      //> res6: Char = S
+  s.last                                    //> res7: Char = g
+  s(s.length - 1)                           //> res8: Char = g
 
-  // 10. Write a function that computes x^n, where n is an integer. Use the following
-  // recursive definition
-  // xn = y2 if n is even and positive, where y = x ^ n / 2.
-  // xn = x * x ^ n - 1 if n is odd and positive.
-  // x0 = 1
-  // xn = 1 / x ^ -n if n is negative.
-  // Don't use a return statement.
-  def xpown(x: BigDecimal, n: Int): BigDecimal = {
-    if (n == 0) 1
-    else if (n < 0) 1 / xpown(x, -n)
-    else if (n % 2 == 0) {
-      val i = xpown(x, n / 2)
-      i * i
-    }
-    else x * xpown(x, n - 1)
-  }                               //> xpown: (x: BigDecimal, n: Int)BigDecimal
-  xpown(2, 1024)                  //> res7: BigDecimal = 1.797693134862315907729305190789023E+308
-  xpown(-2, -10)			//> res8: BigDecimal = 0.0009765625
-  xpown(-2, 10)			//> res9: BigDecimal = 1024
+  // 10. What do the take, drop, takeRight, and dropRight string functions do? What
+  // advantage or disadvantage do they have over using substring?
+  // take: Selects the first n elements
+  s.take(2)                                 //> res9: String = St
+  // drop: Selects all elements except first n ones
+  s.drop(2)                                 //> res10: String = ring
+  // takeRight: Selects the last n elements
+  s.takeRight(2)                            //> res11: String = ng
+  // dropRight: Selects all elements except last n ones
+  s.dropRight(2)                            //> res12: String = Stri
+  // advantage: they are much more concise and intuitive than substring
 }
