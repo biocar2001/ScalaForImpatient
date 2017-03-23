@@ -18,7 +18,7 @@ NOTE:
     */
   object Ch7Q1 {
     println("Ch 7 Question 1 " + "-" * 60)
-
+  }
     /*
     VISIBLE Objects are
     1) object InsideAbsolutePackage from Ch7Q1Absolute.scala
@@ -27,7 +27,7 @@ NOTE:
     is "com@horstmann@impatient" since the package at "@" are shorted
     1) Ch7Q1JustCom from Ch7Q1_Com.scala
     2) Ch7Q1JustComHorstmann from Ch7Q1_Com_Horstmann.scala
-    */
+
     val testAbsolute = {
       println("==== Testing Absolute package =====")
       import com.horstmann.impatient._
@@ -81,8 +81,7 @@ where a = 1664525, b = 1013904223, and n = 32.
     printf("randomDouble=%f \n", testRandom1.randomDouble())
     printf("randomInt=%d    \n", testRandom1.randomInt()   )
   }
-
-  /**
+*/  /**
   4) Why do you think the Scala language designers provided the package object
 syntax instead of simply letting you add functions and variables to a package?
     */
